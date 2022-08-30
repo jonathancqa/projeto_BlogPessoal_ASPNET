@@ -38,8 +38,17 @@ namespace BlogAPI
         public void ConfigureServices(IServiceCollection services)
         {
             //Configura��o de Banco de dados
-            services.AddDbContext<BlogPessoalContexto>(opt =>
-            opt.UseSqlServer(Configuration["ConnectionStringsDev:DefaultConnection"]));
+            if (Configuration["Enviroment:Start"] == "PROD")
+            {
+                services.AddEntityFrameworkNpgsql()
+                .AddDbContext<BlogPessoalContexto>(opt =>
+                opt.UseNpgsql(Configuration["ConnectionStringsProd:DefaultConnection"]));
+            }
+            else
+            {
+                services.AddDbContext<BlogPessoalContexto>(opt =>
+                opt.UseSqlServer(Configuration["ConnectionStringsDev:DefaultConnection"]));
+            }
 
             // Repositorios
             services.AddScoped<IUsuario, UsuarioRepositorio>();
@@ -133,6 +142,7 @@ namespace BlogAPI
                 });
             }
 
+            //Ambiente de produção
             contexto.Database.EnsureCreated();
             app.UseSwagger();
             app.UseSwaggerUI(c => {
@@ -140,19 +150,17 @@ namespace BlogAPI
                 c.RoutePrefix = string.Empty;
             });
 
-            //Ambiente de produ��o
-
             //Rotas
             app.UseRouting();
-
-            // Autenticação e Autorização
-            app.UseAuthentication();
-            app.UseAuthorization();
 
             app.UseCors(c => c
                     .AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader());
+
+            // Autenticação e Autorização
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
