@@ -1,7 +1,11 @@
-﻿using BlogAPI.Src.Modelos;
+﻿using BlogAPI.Src.Contextos;
+using BlogAPI.Src.Modelos;
 using BlogAPI.Src.Repositorios;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BlogAPI.Src.Controladores
@@ -12,19 +16,24 @@ namespace BlogAPI.Src.Controladores
     public class PostagemControlador : ControllerBase
     {
         #region Atributos
+
         private readonly IPostagem _repositorio;
+        private readonly BlogPessoalContexto _contexto;
+
         #endregion
 
         #region Construtores
-        public PostagemControlador(IPostagem repositorio)
+        public PostagemControlador(IPostagem repositorio, BlogPessoalContexto contexto)
         {
             _repositorio = repositorio;
+            _contexto = contexto;
         }
         #endregion
 
         #region Métodos
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult> PegarTodasPostagensAsync()
         {
             var lista = await _repositorio.PegarTodasPostagensAsync();
@@ -33,6 +42,7 @@ namespace BlogAPI.Src.Controladores
         }
 
         [HttpGet("id/{idPostagem}")]
+        [Authorize]
         public async Task<ActionResult> PegarPostagemPeloIdAsync([FromRoute] int idPostagem)
         {
             try
@@ -46,6 +56,7 @@ namespace BlogAPI.Src.Controladores
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> NovaPostagemAsync([FromBody] Postagem postagem)
         {
             try
@@ -60,6 +71,7 @@ namespace BlogAPI.Src.Controladores
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult> AtualizarPostagemAsync([FromBody] Postagem postagem)
         {
             try
@@ -74,6 +86,7 @@ namespace BlogAPI.Src.Controladores
         }
 
         [HttpDelete("id/{idPostagem}")]
+        [Authorize]
         public async Task<ActionResult> DeletarPostagem([FromRoute] int idPostagem)
         {
             try
@@ -85,8 +98,7 @@ namespace BlogAPI.Src.Controladores
             {
                 return NotFound(new { Mensagem = ex.Message });
             }
-        }
-
+        }       
 
         #endregion
     }

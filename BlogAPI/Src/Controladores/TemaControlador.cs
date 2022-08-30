@@ -1,5 +1,6 @@
 ﻿using BlogAPI.Src.Modelos;
 using BlogAPI.Src.Repositorios;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -29,6 +30,8 @@ namespace BlogAPI.Src.Controladores
         #region Métodos
 
         [HttpGet]
+        [Authorize]
+
         public async Task<ActionResult> PegarTodosTemasAsync()
         {
             var lista = await _repositorio.PegarTodosTemasAsync();
@@ -39,6 +42,7 @@ namespace BlogAPI.Src.Controladores
         }
 
         [HttpGet("id/{idTema}")]
+        [Authorize]
         public async Task<ActionResult> PegarTemaPeloIdAsync([FromRoute] int idTema)
         {
             try
@@ -52,6 +56,7 @@ namespace BlogAPI.Src.Controladores
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> NovoTemaAsync([FromBody] Tema tema)
         {
             try
@@ -66,6 +71,7 @@ namespace BlogAPI.Src.Controladores
         }
 
         [HttpPut]
+        [Authorize(Roles ="ADMINISTRADOR")]
         public async Task<ActionResult> AtualizarTemaAsync([FromBody] Tema tema)
         {
             try
@@ -80,6 +86,7 @@ namespace BlogAPI.Src.Controladores
         }
 
         [HttpDelete("id/{idTema}")]
+        [Authorize(Roles ="ADMINISTRADOR")]
         public async Task<ActionResult> DeletarTema([FromRoute] int idTema)
         {
             try
@@ -92,7 +99,6 @@ namespace BlogAPI.Src.Controladores
                 return NotFound(new { Mensagem = ex.Message });
             }
         }
-
 
         #endregion
     }

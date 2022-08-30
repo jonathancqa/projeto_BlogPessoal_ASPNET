@@ -24,7 +24,6 @@ namespace BlogAPI.Src.Modelos
         [JsonIgnore, InverseProperty("Tema")]
         public List<Postagem> PostagensRelacionadas { get; set; }
 
-
         #endregion
     }
 }

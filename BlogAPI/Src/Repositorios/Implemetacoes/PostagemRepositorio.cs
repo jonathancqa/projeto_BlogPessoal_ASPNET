@@ -16,7 +16,9 @@ namespace BlogAPI.Src.Repositorios.Implementacoes
     public class PostagemRepositorio : IPostagem
     {
         #region Atributos
+
         private readonly BlogPessoalContexto _contexto;
+
         #endregion Atributos
 
         #region Construtores
@@ -24,6 +26,10 @@ namespace BlogAPI.Src.Repositorios.Implementacoes
         {
             _contexto = contexto;
         }
+
+        #endregion Construtores
+
+        #region Métodos
 
         public async Task AtualizarPostagemAsync(Postagem postagem)
         {
@@ -104,14 +110,8 @@ namespace BlogAPI.Src.Repositorios.Implementacoes
             .Include(p => p.Criador)
             .Include(p => p.Tema)
             .ToListAsync();
-        }
-
-        #endregion Construtores
-
-        #region Métodos
-
-
-
-        #endregion Métodos
+        }        
     }
+
+    #endregion Métodos
 }

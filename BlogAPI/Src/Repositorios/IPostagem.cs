@@ -22,5 +22,4 @@ namespace BlogAPI.Src.Repositorios
 
         Task DeletarPostagemAsync(int id);
     }
-
 }

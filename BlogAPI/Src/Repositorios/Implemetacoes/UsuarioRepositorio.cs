@@ -30,7 +30,6 @@ namespace BlogAPI.Src.Repositorios.Implemetacoes
             _contexto = contexto;
         }
 
-
         #endregion
 
         #region Métodos
@@ -43,20 +42,18 @@ namespace BlogAPI.Src.Repositorios.Implemetacoes
         public async Task NovoUsuarioAsync(Usuario usuario)
         {
             await _contexto.Usuarios.AddAsync(
-            new Usuario
-            {
-                Email = usuario.Email,
-                Nome = usuario.Nome,
-                Senha = usuario.Senha,
-                Foto = usuario.Foto
-            });
+                new Usuario
+                {
+                    Nome = usuario.Nome,
+                    Email = usuario.Email,
+                    Senha = usuario.Senha,
+                    Foto = usuario.Foto,
+                    Tipo = usuario.Tipo
+                }
+            );
             await _contexto.SaveChangesAsync();
         }
 
         #endregion
     }
-
-
-
-
 }

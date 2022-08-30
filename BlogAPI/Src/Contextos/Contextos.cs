@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 namespace BlogAPI.Src.Contextos
 {
 /// <summary>
-/// <para>Resumo: Classe contexto, responsavel por carregar contexto e definirDbSets</para>
-/// <para>Criado por: Generation</para>
+/// <para>Resumo: Classe contexto, responsavel por carregar contexto e definir DbSets</para>
+/// <para>Criado por: Jonathan</para>
 /// <para>Versão: 1.0</para>
-/// <para>Data: 17/07/2022</para>
+/// <para>Data: 03/08/2022</para>
 /// </summary>
 public class BlogPessoalContexto : DbContext
     {
